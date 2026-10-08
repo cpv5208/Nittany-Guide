@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nittany Guide | Penn State Student Resources</title>
+  <style>
+    :root {
+      --blue: #001e44;
+      --light-blue: #eaf2f8;
+      --gold: #f4c542;
+      --ink: #17212b;
+      --muted: #536273;
+      --white: #fff;
+      --border: #d4dde5;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #f5f7f9;
+      color: var(--ink);
+      font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+
+    header {
+      background: var(--blue);
+      color: var(--white);
+      padding: 24px 18px;
+      border-bottom: 6px solid var(--gold);
+    }
+
+    .wrap { max-width: 900px; margin: auto; }
+    header h1 { margin: 0; font-size: 1.8rem; }
+    header p { margin: 4px 0 0; }
+
+    main { max-width: 900px; margin: 24px auto; padding: 0 16px; }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    button, a.button {
+      font: inherit;
+      cursor: pointer;
+    }
+
+    nav button {
+      border: 1px solid var(--blue);
+      border-radius: 8px;
+      padding: 10px 14px;
+      background: var(--white);
+      color: var(--blue);
+      font-weight: 650;
+    }
+
+    nav button[aria-selected="true"] {
+      background: var(--blue);
+      color: var(--white);
+    }
+
+    section.panel {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 8px #001e4410;
+    }
+
+    h2 { margin-top: 0; color: var(--blue); }
+    label { display: block; font-weight: 650; margin-bottom: 6px; }
+
+    input {
+      width: 100%;
+      border: 1px solid #8998a8;
+      border-radius: 8px;
+      padding: 12px;
+      font: inherit;
+    }
+
+    .primary {
+      margin-top: 10px;
+      border: 0;
+      border-radius: 8px;
+      padding: 11px 16px;
+      background: var(--blue);
+      color: var(--white);
+      font-weight: 700;
+    }
+
+    .notice {
+      background: var(--light-blue);
+      border-left: 5px solid var(--blue);
+      border-radius: 6px;
+      padding: 12px 14px;
+      margin: 14px 0;
+    }
+
+    .urgent {
+      border-left-color: #b42318;
+      background: #fff1f0;
+    }
+
+    .answer { min-height: 70px; }
+    .answer a, .resource a { color: #064f91; }
+    .resource-list { display: grid; gap: 12px; }
+
+    .resource {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+    }
+
+    .resource h3 { margin: 0 0 4px; color: var(--blue); }
+    .resource p { margin: 0 0 6px; color: var(--muted); }
+    footer { color: var(--muted); font-size: .92rem; padding: 4px 0 24px; }
+
+    [hidden] { display: none !important; }
+
+    @media (max-width: 520px) {
+      section.panel { padding: 16px; }
+      header h1 { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>Nittany Guide</h1>
+      <p>A student guide to Penn State services and resources</p>
+    </div>
+  </header>
+
+  <main>
+    <nav aria-label="Main sections">
+      <button type="button" data-panel="chat" aria-selected="true">Ask a question</button>
+      <button type="button" data-panel="services" aria-selected="false">Campus Services</button>
+      <button type="button" data-panel="resources" aria-selected="false">My Resources</button>
+    </nav>
+
+    <section class="panel" id="urgent">
+      <h2>Need urgent help?</h2>
+      <div class="notice urgent">
+        <strong>If someone is in immediate danger, call 911.</strong>
+        You can also call University Police at
+        <a href="tel:8148631111">814-863-1111</a>.
+      </div>
+      <p>
+        <strong>Mental health crisis, 24/7:</strong>
+        <a href="tel:18772296400">Penn State Crisis Line: 1-877-229-6400</a>
+        or text <strong>LIONS</strong> to <strong>741741</strong>.
+      </p>
+      <p>
+        <a href="https://studentaffairs.psu.edu/get-urgent-help"
+           target="_blank" rel="noopener noreferrer">Official Penn State urgent-help information</a>
+      </p>
+    </section>
+
+    <section class="panel" id="chat">
+      <h2>Ask Nittany Guide</h2>
+      <p>
+        This starter version searches a small set of prepared answers and official
+        Penn State links. It does not use AI. If it can’t find a match, it will
+        direct you to Penn State’s official website.
+      </p>
+
+      <form id="question-form">
+        <label for="question">What would you like help finding?</label>
+        <input id="question" name="question" type="search"
+               placeholder="For example: Where can I find tutoring?" required>
+        <button class="primary" type="submit">Search resources</button>
+      </form>
+
+      <div class="notice answer" id="answer" aria-live="polite">
+        Try asking about counseling, health services, financial aid, housing,
+        dining, library, tutoring, or safety.
+      </div>
+    </section>
+
+    <section class="panel" id="services" hidden>
+      <h2>Campus Services</h2>
+      <div class="resource-list">
+        <article class="resource">
+          <h3>University Health Services</h3>
+          <p>Health care information and appointments for students.</p>
+          <a href="https://uhs.psu.edu/" target="_blank" rel="noopener noreferrer">Visit UHS</a>
+        </article>
+        <article class="resource">
+          <h3>Counseling and Psychological Services</h3>
+          <p>Counseling services and mental health support.</p>
+          <a href="https://studentaffairs.psu.edu/health-wellbeing/mental-health-services"
+             target="_blank" rel="noopener noreferrer">Visit mental health services</a>
+        </article>
+        <article class="resource">
+          <h3>Housing and Food Services</h3>
+          <p>University housing, dining, and related information.</p>
+          <a href="https://liveon.psu.edu/" target="_blank" rel="noopener noreferrer">Visit LiveOn</a>
+        </article>
+        <article class="resource">
+          <h3>Libraries</h3>
+          <p>Library locations, research help, and study resources.</p>
+          <a href="https://libraries.psu.edu/" target="_blank" rel="noopener noreferrer">Visit Penn State Libraries</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel" id="resources" hidden>
+      <h2>My Resources</h2>
+      <div class="resource-list">
+        <article class="resource">
+          <h3>Student information and services</h3>
+          <p>Find official student support, programs, and services.</p>
+          <a href="https://studentaffairs.psu.edu/" target="_blank" rel="noopener noreferrer">Penn State Student Affairs</a>
+        </article>
+        <article class="resource">
+          <h3>Financial aid</h3>
+          <p>Information about aid, scholarships, and student accounts.</p>
+          <a href="https://studentaid.psu.edu/" target="_blank" rel="noopener noreferrer">Penn State Student Aid</a>
+        </article>
+        <article class="resource">
+          <h3>Academic information</h3>
+          <p>University-wide academic policies and information.</p>
+          <a href="https://www.registrar.psu.edu/" target="_blank" rel="noopener noreferrer">Office of the University Registrar</a>
+        </article>
+        <article class="resource">
+          <h3>Official Penn State website</h3>
+          <p>Search Penn State’s official website for other topics.</p>
+          <a href="https://www.psu.edu/" target="_blank" rel="noopener noreferrer">psu.edu</a>
+        </article>
+      </div>
+    </section>
+
+    <footer>
+      This independent student project is not an official Penn State service.
+      Information and contact details can change; use the linked Penn State
+      pages for the latest information. For emergencies, call 911.
+    </footer>
+  </main>
+
+  <script>
+    const answers = [
+      {
+        words: ["counsel", "mental health", "therapy", "crisis"],
+        text: "Penn State Student Affairs provides mental health services and crisis support. For urgent help, use the contacts at the top of this page.",
+        url: "https://studentaffairs.psu.edu/health-wellbeing/mental-health-services",
+        label: "Penn State mental health services"
+      },
+      {
+        words: ["health", "doctor", "medical", "uhs", "nurse"],
+        text: "University Health Services provides student health information and services.",
+        url: "https://uhs.psu.edu/",
+        label: "University Health Services"
+      },
+      {
+        words: ["financial aid", "scholarship", "student aid", "fafsa"],
+        text: "Penn State Student Aid is the official place to find financial aid information.",
+        url: "https://studentaid.psu.edu/",
+        label: "Penn State Student Aid"
+      },
+      {
+        words: ["housing", "dorm", "residence", "dining", "meal"],
+        text: "Penn State's LiveOn site has information about university housing and dining.",
+        url: "https://liveon.psu.edu/",
+        label: "Penn State LiveOn"
+      },
+      {
+        words: ["library", "research", "study space"],
+        text: "Penn State Libraries provides library and research services.",
+        url: "https://libraries.psu.edu/",
+        label: "Penn State Libraries"
+      },
+      {
+        words: ["tutor", "tutoring", "academic help", "learning"],
+        text: "Student Affairs lists learning and academic support resources. Availability may depend on your campus.",
+        url: "https://studentaffairs.psu.edu/",
+        label: "Penn State Student Affairs"
+      },
+      {
+        words: ["safety", "police", "emergency", "unsafe"],
+        text: "For immediate danger, call 911. Penn State's urgent-help page lists university contacts and support options.",
+        url: "https://studentaffairs.psu.edu/get-urgent-help",
+        label: "Penn State urgent-help information"
+      },
+      {
+        words: ["registrar", "academic calendar", "transcript", "course"],
+        text: "The Office of the University Registrar provides official academic and enrollment information.",
+        url: "https://www.registrar.psu.edu/",
+        label: "Office of the University Registrar"
+      }
+    ];
+
+    const form = document.querySelector("#question-form");
+    const input = document.querySelector("#question");
+    const answerBox = document.querySelector("#answer");
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+      const question = input.value.toLowerCase();
+
+      const urgentWords = [
+        "suicide", "kill myself", "hurt myself", "self harm",
+        "overdose", "someone is hurting", "immediate danger",
+        "hurt someone", "sexual assault"
+      ];
+
+      if (urgentWords.some(word => question.includes(word))) {
+        answerBox.innerHTML =
+          'This may need immediate help. If anyone is in immediate danger, ' +
+          'call <a href="tel:911">911</a> or University Police at ' +
+          '<a href="tel:8148631111">814-863-1111</a>. For 24/7 mental health ' +
+          'crisis support, call <a href="tel:18772296400">1-877-229-6400</a> ' +
+          'or text LIONS to 741741. ' +
+          '<a href="https://studentaffairs.psu.edu/get-urgent-help" ' +
+          'target="_blank" rel="noopener noreferrer">Penn State urgent-help information</a>.';
+        answerBox.classList.add("urgent");
+        return;
+      }
+
+      answerBox.classList.remove("urgent");
+
+      const match = answers.find(item =>
+        item.words.some(word => question.includes(word))
+      );
+
+      if (match) {
+        answerBox.innerHTML =
+          `${match.text} <a href="${match.url}" target="_blank" ` +
+          `rel="noopener noreferrer">${match.label}</a>.`;
+      } else {
+        answerBox.innerHTML =
+          'I don’t have a prepared answer for that question. Please search ' +
+          '<a href="https://www.psu.edu/" target="_blank" ' +
+          'rel="noopener noreferrer">Penn State’s official website</a> or ' +
+          'contact your campus office. If this is urgent, use the help contacts above.';
+      }
+    });
+
+    document.querySelectorAll("nav button").forEach(button => {
+      button.addEventListener("click", () => {
+        document.querySelectorAll("nav button").forEach(item =>
+          item.setAttribute("aria-selected", "false")
+        );
+        button.setAttribute("aria-selected", "true");
+
+        ["chat", "services", "resources"].forEach(id => {
+          document.getElementById(id).hidden = id !== button.dataset.panel;
+        });
+      });
+    });
+  </script>
+</body>
+</html>
