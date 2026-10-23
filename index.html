@@ -256,7 +256,7 @@
   <script>
     // FAQ wording and links are maintained here. Add or revise entries as needed.
     const faqs = [
-            {
+      {
         category: "academics",
         question: "How do I register for classes or manage my schedule?",
         keywords: [
@@ -266,14 +266,6 @@
         answer: "Use LionPATH for registration and student-account tasks. Check the Registrar’s site for official enrollment information and academic dates.",
         url: "https://lionpathsupport.psu.edu/",
         source: "LionPATH support"
-      },
-      {
-        category: "academics",
-        question: "Where do I find academic advising?",
-        keywords: ["advising", "adviser", "advisor", "degree", "major", "course plan"],
-        answer: "For questions about your academic path or degree requirements, contact academic advising through your campus or college.",
-        url: "https://www.psu.edu/academics",
-        source: "Penn State Academics"
       },
       {
         category: "academics",
@@ -373,16 +365,9 @@
         answer: "Penn State IT provides technology services and support information. Use the official support resources for account-specific help.",
         url: "https://it.psu.edu/",
         source: "Penn State IT"
-      },
-      {
-        category: "admin",
-        question: "Where can I search Penn State’s official website?",
-        keywords: ["other", "search penn state", "website", "contact", "not listed"],
-        answer: "Search the official Penn State website or contact the relevant office at your campus.",
-        url: "https://www.psu.edu/",
-        source: "Penn State"
       }
-];
+    ];
+
     const services = [
       {
         title: "Health services",
@@ -544,8 +529,8 @@
 
       // Route urgent keyword matches to human support rather than a routine FAQ.
       const urgentTerms = [
-        "suicide", "kill", "hurt", "harm",
-        "overdose", "danger", "concern", "assault", "emergency", "sexual"
+        "suicide", "kill myself", "hurt myself", "self harm",
+        "overdose", "immediate danger", "hurt someone", "sexual assault"
       ];
 
       if (urgentTerms.some(term => query.includes(term))) {
@@ -568,59 +553,20 @@
 
       answer.classList.remove("urgent");
 
-      const normalize = text => text
-        .toLowerCase()
-        .replace(/[’']/g, "")
-        .replace(/[^a-z0-9\s]/g, " ")
-        .replace(/\s+/g, " ")
-        .trim();
-
-      const normalizedQuery = normalize(query);
-      const queryWords = new Set(normalizedQuery.split(" ").filter(Boolean));
-
       const matchingFaq = faqs
-        .map(item => {
-          const question = normalize(item.question);
-          const keywords = item.keywords.map(normalize);
+        .map(item => ({
+          item,
+          score: item.keywords.reduce(
+            (total, keyword) => total + (query.includes(keyword) ? keyword.length : 0),
+            0
+          )
+        }))
+        .filter(result => result.score > 0)
+        .sort((a, b) => b.score - a.score)[0];
 
-          let score = 0;
-
-          // Prefer matches to a FAQ's actual question.
-          if (normalizedQuery.includes(question)) score += 10;
-
-          // Longer keyword phrases are more meaningful than short, broad words.
-          for (const keyword of keywords) {
-            if (normalizedQuery.includes(keyword)) {
-              score += keyword.includes(" ") ? 5 : 2;
-            } else if (keyword.split(" ").some(word => queryWords.has(word))) {
-              score += 1;
-            }
-          }
-
-          return { item, score };
-        })
-        .sort((a, b) => b.score - a.score);
-
-      // Avoid presenting a weak or accidental match as the answer.
-      const bestMatch = matchingFaq[0];
-      const runnerUp = matchingFaq[1];
-      const isAmbiguous =
-        bestMatch && runnerUp && bestMatch.score === runnerUp.score;
-
-      if (bestMatch && bestMatch.score >= 2 && !isAmbiguous) {
-        showAnswer(bestMatch.item);
+      if (matchingFaq) {
+        showAnswer(matchingFaq.item);
       } else {
-        answer.replaceChildren();
-
-        const message = document.createElement("p");
-        message.textContent =
-          "I don’t have a prepared answer for that question. Try different keywords, or search Penn State’s official website.";
-
-        answer.append(
-          message,
-          safeLink("https://www.psu.edu/", "Search Penn State’s official website")
-        );
-      }
         answer.replaceChildren();
 
         const message = document.createElement("p");
