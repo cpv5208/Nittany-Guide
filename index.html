@@ -256,13 +256,16 @@
   <script>
     // FAQ wording and links are maintained here. Add or revise entries as needed.
     const faqs = [
-      {
+            {
         category: "academics",
-        question: "Where can I find tutoring or academic support?",
-        keywords: ["tutor", "tutoring", "academic support", "study help", "learning center"],
-        answer: "Academic support and tutoring options are organized by campus and course. Check your campus’s official academic support page or contact your academic adviser.",
-        url: "https://www.psu.edu/academics",
-        source: "Penn State Academics"
+        question: "How do I register for classes or manage my schedule?",
+        keywords: [
+          "register for classes", "registration", "enroll",
+          "add a class", "drop a class", "course schedule", "lionpath"
+        ],
+        answer: "Use LionPATH for registration and student-account tasks. Check the Registrar’s site for official enrollment information and academic dates.",
+        url: "https://lionpathsupport.psu.edu/",
+        source: "LionPATH support"
       },
       {
         category: "academics",
@@ -274,52 +277,103 @@
       },
       {
         category: "academics",
-        question: "Where can I find registrar information?",
-        keywords: ["registrar", "transcript", "enrollment", "academic calendar", "drop a class"],
-        answer: "The Office of the University Registrar provides official academic and enrollment information.",
+        question: "Where can I find my grades or transcript?",
+        keywords: [
+          "grades", "final grades", "transcript", "academic record",
+          "unofficial transcript", "official transcript"
+        ],
+        answer: "Use LionPATH for student academic records. The University Registrar provides official transcript and enrollment information.",
+        url: "https://www.registrar.psu.edu/",
+        source: "Office of the University Registrar"
+      },
+      {
+        category: "academics",
+        question: "Where can I get help with Canvas or online classes?",
+        keywords: [
+          "canvas", "online class", "course website", "can't log in",
+          "canvas help", "learning platform"
+        ],
+        answer: "Penn State’s Canvas information and support resources are available through Penn State IT.",
+        url: "https://www.it.psu.edu/services/canvas/",
+        source: "Penn State Canvas"
+      },
+      {
+        category: "academics",
+        question: "Where can I find academic dates and deadlines?",
+        keywords: [
+          "academic calendar", "semester dates", "deadline",
+          "class start", "semester break", "withdrawal deadline"
+        ],
+        answer: "Check the University Registrar for official academic calendars and enrollment dates.",
         url: "https://www.registrar.psu.edu/",
         source: "Office of the University Registrar"
       },
       {
         category: "wellbeing",
-        question: "Where can I find mental health support?",
-        keywords: ["mental health", "counseling", "counselor", "therapy", "stress", "anxiety"],
-        answer: "Penn State Student Affairs provides mental health service information. For immediate danger, call 911. For 24/7 crisis support, call 1-877-229-6400 or text LIONS to 741741.",
+        question: "Where can I find counseling or mental health support?",
+        keywords: [
+          "counseling", "counselor", "therapy", "mental health",
+          "stress", "anxiety", "emotional support"
+        ],
+        answer: "Penn State Student Affairs lists mental health services and support options. For immediate danger, call 911. For 24/7 crisis support, call 1-877-229-6400 or text LIONS to 741741.",
         url: "https://studentaffairs.psu.edu/health-wellbeing/mental-health-services",
         source: "Penn State mental health services"
       },
       {
         category: "wellbeing",
-        question: "Where can I find student health services?",
-        keywords: ["health", "doctor", "medical", "clinic", "uhs", "sick"],
-        answer: "University Health Services provides health information and services. Check its site for current services and campus details.",
+        question: "Where can I find health services or medical care?",
+        keywords: [
+          "doctor", "medical care", "health services", "clinic",
+          "sick", "health center", "uhs"
+        ],
+        answer: "University Health Services provides student health information. Check its site for current services and campus-specific details.",
         url: "https://studentaffairs.psu.edu/about/directory/uhs",
         source: "University Health Services"
       },
       {
         category: "campus",
-        question: "Where can I find housing and dining information?",
-        keywords: ["housing", "dorm", "residence", "dining", "meal plan", "food"],
-        answer: "Penn State’s LiveOn site provides university housing and dining information. Details can vary by campus.",
+        question: "Where can I find housing, residence hall, or meal plan information?",
+        keywords: [
+          "housing", "residence hall", "dorm", "live on",
+          "meal plan", "dining", "room assignment"
+        ],
+        answer: "Penn State’s LiveOn site provides university housing and dining information. Options may vary by campus.",
         url: "https://liveon.psu.edu/",
         source: "Penn State LiveOn"
       },
       {
         category: "campus",
-        question: "Where can I find library and research help?",
-        keywords: ["library", "libraries", "research", "books", "study space"],
-        answer: "Penn State Libraries provides library, research, and study resources.",
+        question: "Where can I find library, research, or study-space help?",
+        keywords: [
+          "library", "research help", "study space", "books",
+          "borrow books", "database", "librarian"
+        ],
+        answer: "Penn State Libraries provides library services, research assistance, and study resources.",
         url: "https://libraries.psu.edu/",
         source: "Penn State Libraries"
       },
       {
         category: "admin",
-        question: "Where can I find financial aid information?",
-        keywords: ["financial aid", "student aid", "scholarship", "fafsa", "grants", "loans"],
-        answer: "Penn State’s Office of Student Aid provides information about aid and scholarships, including ways to contact campus offices.",
+        question: "Where can I find financial aid, scholarships, or FAFSA information?",
+        keywords: [
+          "financial aid", "scholarship", "fafsa", "grant",
+          "student loan", "student aid", "aid application"
+        ],
+        answer: "The Office of Student Aid provides information about financial aid and scholarships, including campus office contacts.",
         url: "https://www.psu.edu/costs-aid/contact",
         source: "Contact the Office of Student Aid"
       },
+      {
+        category: "admin",
+        question: "Where can I get help with my Penn State account or technology?",
+        keywords: [
+          "password", "account locked", "login", "technology help",
+          "it support", "email account", "office 365"
+        ],
+        answer: "Penn State IT provides technology services and support information. Use the official support resources for account-specific help.",
+        url: "https://it.psu.edu/",
+        source: "Penn State IT"
+      }
       {
         category: "admin",
         question: "Where can I search Penn State’s official website?",
@@ -328,7 +382,6 @@
         url: "https://www.psu.edu/",
         source: "Penn State"
       }
-    ];
 
     const services = [
       {
@@ -491,8 +544,8 @@
 
       // Route urgent keyword matches to human support rather than a routine FAQ.
       const urgentTerms = [
-        "suicide", "kill myself", "hurt myself", "self harm",
-        "overdose", "immediate danger", "hurt someone", "sexual assault"
+        "suicide", "kill", "hurt", "harm",
+        "overdose", "danger", "concern", "assault", "emergency", "sexual"
       ];
 
       if (urgentTerms.some(term => query.includes(term))) {
@@ -515,20 +568,59 @@
 
       answer.classList.remove("urgent");
 
-      const matchingFaq = faqs
-        .map(item => ({
-          item,
-          score: item.keywords.reduce(
-            (total, keyword) => total + (query.includes(keyword) ? keyword.length : 0),
-            0
-          )
-        }))
-        .filter(result => result.score > 0)
-        .sort((a, b) => b.score - a.score)[0];
+      const normalize = text => text
+        .toLowerCase()
+        .replace(/[’']/g, "")
+        .replace(/[^a-z0-9\s]/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
 
-      if (matchingFaq) {
-        showAnswer(matchingFaq.item);
+      const normalizedQuery = normalize(query);
+      const queryWords = new Set(normalizedQuery.split(" ").filter(Boolean));
+
+      const matchingFaq = faqs
+        .map(item => {
+          const question = normalize(item.question);
+          const keywords = item.keywords.map(normalize);
+
+          let score = 0;
+
+          // Prefer matches to a FAQ's actual question.
+          if (normalizedQuery.includes(question)) score += 10;
+
+          // Longer keyword phrases are more meaningful than short, broad words.
+          for (const keyword of keywords) {
+            if (normalizedQuery.includes(keyword)) {
+              score += keyword.includes(" ") ? 5 : 2;
+            } else if (keyword.split(" ").some(word => queryWords.has(word))) {
+              score += 1;
+            }
+          }
+
+          return { item, score };
+        })
+        .sort((a, b) => b.score - a.score);
+
+      // Avoid presenting a weak or accidental match as the answer.
+      const bestMatch = matchingFaq[0];
+      const runnerUp = matchingFaq[1];
+      const isAmbiguous =
+        bestMatch && runnerUp && bestMatch.score === runnerUp.score;
+
+      if (bestMatch && bestMatch.score >= 2 && !isAmbiguous) {
+        showAnswer(bestMatch.item);
       } else {
+        answer.replaceChildren();
+
+        const message = document.createElement("p");
+        message.textContent =
+          "I don’t have a prepared answer for that question. Try different keywords, or search Penn State’s official website.";
+
+        answer.append(
+          message,
+          safeLink("https://www.psu.edu/", "Search Penn State’s official website")
+        );
+      }
         answer.replaceChildren();
 
         const message = document.createElement("p");
