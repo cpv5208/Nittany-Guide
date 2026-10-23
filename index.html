@@ -260,8 +260,8 @@
         category: "academics",
         question: "How do I register for classes or manage my schedule?",
         keywords: [
-          "register for classes", "registration", "enroll",
-          "add a class", "drop a class", "course schedule", "lionpath"
+          "register", "registration", "enroll", "enrolling"
+          "add a class", "drop a class", "schedule", "lionpath", "pick" 
         ],
         answer: "Use LionPATH for registration and student-account tasks. Check the Registrar’s site for official enrollment information and academic dates.",
         url: "https://lionpathsupport.psu.edu/",
@@ -293,7 +293,7 @@
         category: "academics",
         question: "Where can I find academic dates and deadlines?",
         keywords: [
-          "academic calendar", "semester dates", "deadline",
+          "academic calendar", "academic dates", "semester dates", "deadline",
           "class start", "semester break", "withdrawal deadline"
         ],
         answer: "Check the University Registrar for official academic calendars and enrollment dates.",
@@ -304,9 +304,9 @@
         category: "academics",
         question: "How do I find my academic adviser or make an advising appointment?",
         keywords: [
-          "find my adviser", "find my advisor", "assigned adviser",
+          "adviser", "advisor", "find my adviser", "find my advisor", "assigned adviser",
           "assigned advisor", "advising appointment", "meet with adviser",
-          "meet with advisor", "starfish"
+          "meet with advisor", "starfish", "appointment", "meet"
         ],
         answer: "Check Starfish to find your assigned adviser and available advising options. Advising arrangements can vary by campus, college, and program.",
         url: "https://sites.psu.edu/starfishinfo/",
@@ -372,7 +372,7 @@
         category: "campus",
         question: "Where can I find library, research, or study-space help?",
         keywords: [
-          "library", "research help", "study space", "books",
+          "library", "research", "study space", "books",
           "borrow books", "database", "librarian"
         ],
         answer: "Penn State Libraries provides library services, research assistance, and study resources.",
@@ -660,8 +660,8 @@
 
       // Route urgent keyword matches to human support rather than a routine FAQ.
       const urgentTerms = [
-        "suicide", "kill", "hurt", "harm",
-        "overdose", "danger", "concern", "assault", "emergency", "sexual", "intruder", "stranger", "breaking"
+        "suicide", "kill", "killing", "hurt", "hurting", "harm", "harming"
+        "overdose", "danger", "concern", "assault", "emergency", "sexual", "intruder", "stranger", "breaking", "illegal", "crime"
       ];
 
       if (urgentTerms.some(term => query.includes(term))) {
