@@ -529,8 +529,8 @@
 
       // Route urgent keyword matches to human support rather than a routine FAQ.
       const urgentTerms = [
-        "suicide", "kill myself", "hurt myself", "self harm",
-        "overdose", "immediate danger", "hurt someone", "sexual assault"
+        "suicide", "kill", "hurt", "harm",
+        "overdose", "danger", "concern", "assault", "emergency", "sexual", "intruder", "stranger", "breaking"
       ];
 
       if (urgentTerms.some(term => query.includes(term))) {
