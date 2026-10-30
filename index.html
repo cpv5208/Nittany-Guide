@@ -260,8 +260,8 @@
         category: "academics",
         question: "How do I register for classes or manage my schedule?",
         keywords: [
-          "register", "registration", "enroll", "enrolling"
-          "add a class", "drop a class", "schedule", "lionpath", "pick" 
+          "register", "registration", "enroll", "enrolling",
+          "add a class", "adding a class", "add classes", "adding classes", "drop a class", "drop classes", "schedule", "lionpath", "pick" 
         ],
         answer: "Use LionPATH for registration and student-account tasks. Check the Registrar’s site for official enrollment information and academic dates.",
         url: "https://lionpathsupport.psu.edu/",
@@ -660,8 +660,8 @@
 
       // Route urgent keyword matches to human support rather than a routine FAQ.
       const urgentTerms = [
-        "suicide", "kill", "killing", "hurt", "hurting", "harm", "harming"
-        "overdose", "danger", "concern", "assault", "emergency", "sexual", "intruder", "stranger", "breaking", "illegal", "crime"
+        "suicide", "kill", "killing", "hurt", "hurting", "harm", "harming",
+        "overdose", "danger", "concern", "assault", "emergency", "sexual", "intruder", "stranger", "breaking", "illegal", "crime", "criminal"
       ];
 
       if (urgentTerms.some(term => query.includes(term))) {
