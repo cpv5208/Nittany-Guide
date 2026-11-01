@@ -208,7 +208,7 @@
       <form id="search-form">
         <label for="question">What do you need help finding?</label>
         <div class="search-row">
-          <input id="question" type="search" required
+          <input id="question" type="search" maxlength="300" required
                  placeholder="Try “How do I find tutoring?”">
           <button class="submit-button" type="submit">Search</button>
         </div>
@@ -658,6 +658,15 @@
       event.preventDefault();
       const query = questionInput.value.trim().toLowerCase();
 
+      if (query.length > 300) {
+  answer.textContent = "Please keep your question under 300 characters.";
+  return;
+}
+
+if (!query) {
+  answer.textContent = "Please enter a question.";
+  return;
+}
       // Route urgent keyword matches to human support rather than a routine FAQ.
       const urgentTerms = [
         "suicide", "kill", "killing", "hurt", "hurting", "harm", "harming",
@@ -711,15 +720,16 @@
       }
     });
 
-    document.querySelectorAll(".filter").forEach(button => {
-      button.addEventListener("click", () => {
-        document.querySelectorAll(".filter").forEach(item =>
-          item.setAttribute("aria-pressed", "false")
-        );
-        button.setAttribute("aria-pressed", "true");
-        setFilter(button.dataset.filter);
-      });
-    });
+    document.querySelectorAll(".filter[data-filter]").forEach(button => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll(".filter[data-filter]").forEach(item =>
+      item.setAttribute("aria-pressed", "false")
+    );
+
+    button.setAttribute("aria-pressed", "true");
+    setFilter(button.dataset.filter);
+  });
+});
 
     document.querySelectorAll(".tab").forEach(button => {
       button.addEventListener("click", () => {
