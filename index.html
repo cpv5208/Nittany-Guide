@@ -144,6 +144,28 @@
     }
 
     .faq-card, .resource-card { padding: 16px; }
+    .event-card h3 {
+  margin: 0 0 6px;
+  color: var(--navy);
+  font-size: 1.05rem;
+}
+
+.event-card p {
+  margin: 0 0 8px;
+  color: var(--muted);
+}
+
+.event-meta {
+  font-weight: 650;
+  color: var(--navy) !important;
+}
+
+.event-status {
+  padding: 12px;
+  border-radius: 8px;
+  background: #eef4fb;
+  color: var(--navy);
+}
     .faq-card h3, .resource-card h3 { margin: 0 0 6px; color: var(--navy); font-size: 1.05rem; }
     .faq-card p, .resource-card p { margin: 0 0 8px; color: var(--muted); }
     .category-label { color: var(--muted); font-size: .85rem; font-weight: 700; }
@@ -196,6 +218,9 @@
       <button class="tab" type="button" data-panel="resources" aria-selected="false">
         My Resources
       </button>
+      <button class="tab" type="button" data-panel="events" aria-selected="false">
+  Upcoming Events
+</button>
     </nav>
 
     <section class="card" id="ask" aria-labelledby="ask-heading">
@@ -245,6 +270,29 @@
       <p class="intro">Useful Penn State links for common student needs.</p>
       <div id="resources-list" class="resource-grid"></div>
     </section>
+
+    <section class="card" id="events" aria-labelledby="events-heading" hidden>
+  <h2 id="events-heading">Upcoming University Events</h2>
+
+  <p class="intro">
+    Browse upcoming events and filter them by category.
+    Event information is loaded from the events.json file.
+  </p>
+
+  <div id="events-status" class="event-status"
+       role="status" aria-live="polite">
+    Loading upcoming events...
+  </div>
+
+  <div id="event-filters" class="event-filters"
+       role="group" aria-label="Filter events by category" hidden></div>
+
+  <div id="event-list" class="event-list"></div>
+
+  <p class="small-note">
+    Event details may change. Check with the organizer before attending.
+  </p>
+</section>
 
     <footer>
       Nittany Guide is an independent student project, not an official Penn State
@@ -581,6 +629,25 @@
     const answer = document.querySelector("#answer");
     const questionInput = document.querySelector("#question");
 
+    // Events database
+const EVENTS_FILE = "./events.json";
+
+const eventsStatus = document.querySelector("#events-status");
+const eventFilters = document.querySelector("#event-filters");
+const eventList = document.querySelector("#event-list");
+
+let allEvents = [];
+let activeEventCategory = "all";
+
+const eventCategories = [
+  "Academics",
+  "Career",
+  "Campus Life",
+  "Arts & Entertainment",
+  "Sports",
+  "Well-being"
+];
+
     function safeLink(url, label) {
       const link = document.createElement("a");
       link.href = url;
@@ -653,6 +720,186 @@
         admin: "University services"
       });
     }
+
+    // Check whether an event link is a valid HTTP or HTTPS URL
+function isValidHttpUrl(value) {
+  try {
+    const parsed = new URL(value);
+    return parsed.protocol === "https:" || parsed.protocol === "http:";
+  } catch {
+    return false;
+  }
+}
+
+// Format the event date and time
+function formatEventDate(value) {
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return "Date to be announced";
+  }
+
+  return new Intl.DateTimeFormat(undefined, {
+    weekday: "short",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit"
+  }).format(date);
+}
+
+// Display event cards
+function renderEvents() {
+  eventList.replaceChildren();
+
+  const visibleEvents = activeEventCategory === "all"
+    ? allEvents
+    : allEvents.filter(item => item.category === activeEventCategory);
+
+  if (visibleEvents.length === 0) {
+    const empty = document.createElement("p");
+    empty.className = "event-status";
+    empty.textContent = activeEventCategory === "all"
+      ? "There are no upcoming events listed right now. Please check back later."
+      : "There are no upcoming events in this category right now.";
+
+    eventList.append(empty);
+    return;
+  }
+
+  visibleEvents.forEach(item => {
+    const article = document.createElement("article");
+    article.className = "event-card";
+
+    const category = document.createElement("div");
+    category.className = "category-label";
+    category.textContent = item.category;
+
+    const heading = document.createElement("h3");
+    heading.textContent = item.title;
+
+    const date = document.createElement("p");
+    date.className = "event-meta";
+
+    let dateText = formatEventDate(item.starts_at);
+
+    if (item.ends_at) {
+      dateText += " – " + new Intl.DateTimeFormat(undefined, {
+        hour: "numeric",
+        minute: "2-digit"
+      }).format(new Date(item.ends_at));
+    }
+
+    date.textContent = dateText;
+
+    const location = document.createElement("p");
+    location.textContent = item.location || "Location to be announced";
+
+    const description = document.createElement("p");
+    description.textContent = item.description;
+
+    article.append(category, heading, date, location, description);
+
+    if (item.event_url && isValidHttpUrl(item.event_url)) {
+      article.append(safeLink(item.event_url, "Event details"));
+    }
+
+    eventList.append(article);
+  });
+}
+
+// Create category filter buttons
+function renderEventFilters() {
+  eventFilters.replaceChildren();
+
+  ["all", ...eventCategories].forEach(category => {
+    const button = document.createElement("button");
+
+    button.type = "button";
+    button.className = "event-filter";
+    button.dataset.eventCategory = category;
+
+    button.textContent = category === "all"
+      ? "All events"
+      : category;
+
+    button.setAttribute(
+      "aria-pressed",
+      String(activeEventCategory === category)
+    );
+
+    button.addEventListener("click", () => {
+      activeEventCategory = category;
+
+      eventFilters.querySelectorAll("button").forEach(item => {
+        item.setAttribute(
+          "aria-pressed",
+          String(item.dataset.eventCategory === category)
+        );
+      });
+
+      renderEvents();
+    });
+
+    eventFilters.append(button);
+  });
+
+  eventFilters.hidden = false;
+}
+
+// Load events from events.json
+async function loadEvents() {
+  try {
+    const response = await fetch(EVENTS_FILE, {
+      cache: "no-store"
+    });
+
+    if (!response.ok) {
+      throw new Error("Could not load events.json");
+    }
+
+    const data = await response.json();
+
+    if (!Array.isArray(data)) {
+      throw new Error("The events file must contain an array.");
+    }
+
+    const now = Date.now();
+
+    allEvents = data.filter(item => {
+      const startTime = Date.parse(item.starts_at);
+
+      return item &&
+        typeof item.title === "string" &&
+        item.title.trim() &&
+        eventCategories.includes(item.category) &&
+        typeof item.description === "string" &&
+        Number.isFinite(startTime) &&
+        startTime >= now;
+    }).sort((a, b) =>
+      Date.parse(a.starts_at) - Date.parse(b.starts_at)
+    );
+
+    activeEventCategory = "all";
+
+    eventsStatus.hidden = allEvents.length > 0;
+
+    eventsStatus.textContent = allEvents.length > 0
+      ? "Upcoming events loaded."
+      : "There are no upcoming events listed right now. Please check back later.";
+
+    renderEventFilters();
+    renderEvents();
+
+  } catch (error) {
+    console.error("Unable to load events:", error);
+
+    eventsStatus.hidden = false;
+    eventsStatus.textContent =
+      "We couldn't load events.json. Make sure it is in the same folder as index.html and contains valid JSON.";
+  }
+}
 
     document.querySelector("#search-form").addEventListener("submit", event => {
       event.preventDefault();
@@ -738,7 +985,7 @@ if (!query) {
         );
         button.setAttribute("aria-selected", "true");
 
-        ["ask", "services", "resources"].forEach(id => {
+        ["ask", "services", "resources", "events"].forEach(id => {
           document.getElementById(id).hidden = id !== button.dataset.panel;
         });
       });
@@ -752,6 +999,7 @@ if (!query) {
     });
     renderCards(services, document.querySelector("#services-list"));
     renderCards(resources, document.querySelector("#resources-list"));
+    loadEvents();
   </script>
 </body>
 </html>
