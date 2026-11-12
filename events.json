@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Student Organization Fair",
+    "category": "Campus Life",
+    "description": "Meet student organizations and learn how to get involved at Penn State.",
+    "location": "HUB-Robeson Center",
+    "starts_at": "2026-11-20T12:00:00-05:00",
+    "ends_at": "2026-11-20T15:00:00-05:00",
+    "event_url": "https://www.psu.edu/"
+  },
+  {
+    "title": "Career and Internship Workshop",
+    "category": "Career",
+    "description": "Learn about internship opportunities and ways to improve your resume.",
+    "location": "Career Services",
+    "starts_at": "2026-11-25T14:00:00-05:00",
+    "ends_at": "2026-11-25T15:30:00-05:00",
+    "event_url": "https://studentaffairs.psu.edu/career"
+  }
+]
