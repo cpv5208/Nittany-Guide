@@ -62,15 +62,23 @@ Nittany-Guide/
 
 How to Run the Project
 
+The project can be accessed through its GitHub Pages deployment or locally following these steps
+
 Download or clone this repository.
 
 Make sure index.html and events.json are located in the same directory.
 
 Open index.html in a web browser to view the website.
 
-The project can also be accessed through its GitHub Pages deployment:
+If events do not load when opening in your browser, it is due to your browsers restrictions. To get around this, follow these steps.
 
-Open Nittany Guide
+Open the folder containing index.html and events.json.
+
+Open a command prompt in that folder.
+
+Enter the following command: py -m http.server 8000
+
+Then open your browser and visit: http://localhost:8000
 
 Updating University Events
 
